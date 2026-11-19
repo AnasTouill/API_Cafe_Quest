@@ -1,0 +1,17 @@
+# Render Blueprint: https://render.com/docs/blueprint-spec
+services:
+  - type: web
+    name: village-rest-graph
+    runtime: python
+    plan: free
+    branch: village-rest-graph
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn apigame.wsgi:application --bind 0.0.0.0:$PORT
+    healthCheckPath: /api/users/
+    envVars:
+      - key: DJANGO_DEBUG
+        value: "false"
+      - key: DJANGO_SECRET_KEY
+        generateValue: true
+      - key: PYTHON_VERSION
+        value: "3.12.8"
